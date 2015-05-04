@@ -48,7 +48,7 @@ namespace Agilefantasy
                 Console.WriteLine("Got {0} total hours", time.TotalHours);
 
                 Console.WriteLine("Attempting to get sprints...");
-                var sprints = await client.GetSprints();
+                var sprints = await client.GetSprints(7);
                 Console.WriteLine("Got {0} sprints", sprints.Length);
             }
             catch (WebException e)

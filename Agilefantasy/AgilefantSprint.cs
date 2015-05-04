@@ -1,8 +1,10 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -64,9 +66,12 @@ namespace Agilefantasy
         /// </summary>
         /// <param name="session">The session</param>
         /// <returns>The sprint</returns>
-        internal static async Task<AgilefantSprint[]> GetSprints(AgilefantSession session)
+        internal static async Task<AgilefantSprint[]> GetSprints(int backlogId, AgilefantSession session)
         {
-            var response = await session.Post("ajax/retrieveSubBacklogs.action");
+            var response = await session.Post("ajax/retrieveSubBacklogs.action", new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                {"backlogId", backlogId.ToString()}
+            }));
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
