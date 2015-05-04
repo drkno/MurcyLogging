@@ -68,19 +68,7 @@ namespace Agilefantasy
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            return JsonToAgilefantBacklogs(json);
-        }
-
-        private static AgilefantBacklog[] JsonToAgilefantBacklogs(string json)
-        {
-            json = "{\"Backlogs\":" + json + "}";
-            return JsonConvert.DeserializeObject<AgilefantBacklogJsonRoot>(json).Backlogs;
-        }
-
-        protected class AgilefantBacklogJsonRoot
-        {
-            [JsonProperty("Backlogs")]
-            public AgilefantBacklog[] Backlogs { get; protected set; }
+            return JsonConvert.DeserializeObject<AgilefantBacklog[]>(json);
         }
 
         public class AgilefantBacklogProductSummary

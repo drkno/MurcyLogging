@@ -61,16 +61,9 @@ namespace Agilefantasy
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            json = "{\"Users\":" + json + "}";
 
-            var root = JsonConvert.DeserializeObject<AgilefantUserJsonRoot>(json);
-            return (from afUser in root.Users select afUser.OriginalObject).ToArray();
-        }
-
-        protected class AgilefantUserJsonRoot
-        {
-            [JsonProperty]
-            public AgilefantUserWrapper[] Users { get; protected set; }
+            var wrappers = JsonConvert.DeserializeObject<AgilefantUserWrapper[]>(json);
+            return (from wrapper in wrappers select wrapper.OriginalObject).ToArray();
         }
 
         protected class AgilefantUserWrapper
