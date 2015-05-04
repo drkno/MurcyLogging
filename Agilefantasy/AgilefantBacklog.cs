@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -63,7 +64,7 @@ namespace Agilefantasy
         {
             var response = await session.Post("ajax/retrieveSubBacklogs.action", new FormUrlEncodedContent(new Dictionary<string, string>
             {
-                {"backlogId=", teamNumber.ToString()}
+                {"backlogId", teamNumber.ToString()}
             }));
             response.EnsureSuccessStatusCode();
 

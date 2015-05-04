@@ -40,7 +40,7 @@ namespace Agilefantasy
                 Console.WriteLine("Got {0} users!", users.Length);
 
                 Console.WriteLine("Attempting to get backlogs for team 1...");
-                var backlogs = await client.GetBacklogs(7);
+                var backlogs = await client.GetBacklogs(1);
                 Console.WriteLine("Got {0} backlogs", backlogs.Length);
 
                 Console.WriteLine("Attempting to get times for user Jay in sprint 2...");
