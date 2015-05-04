@@ -16,11 +16,11 @@ namespace Agilefantasy
     /// </summary>
     public class AgilefantSession
     {
-        public const string LOGIN_URL = "http://agilefant.cosc.canterbury.ac.nz:8080/agilefant302/j_spring_security_check";
-        public const string AGILEFANT_URL = "http://agilefant.cosc.canterbury.ac.nz:8080/agilefant302/";
+        private const string LOGIN_URL = "http://agilefant.cosc.canterbury.ac.nz:8080/agilefant302/j_spring_security_check";
+        private const string AGILEFANT_URL = "http://agilefant.cosc.canterbury.ac.nz:8080/agilefant302/";
 
-        public HttpClientHandler Handler { get; private set; }
-        public CookieContainer CookieContainer { get { return Handler.CookieContainer; } }
+        internal HttpClientHandler Handler { get; private set; }
+        internal CookieContainer CookieContainer { get { return Handler.CookieContainer; } }
 
         private readonly HttpClient _httpClient;
 
