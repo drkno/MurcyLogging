@@ -72,6 +72,7 @@ namespace Agilefantasy
         public static async Task<AgilefantSession> Login(string username, string password)
         {
             var handler = new HttpClientHandler();
+            handler.AllowAutoRedirect = true;
             handler.UseCookies = true;
             var client = new HttpClient(handler);
             var data = new FormUrlEncodedContent(new Dictionary<string, string>
