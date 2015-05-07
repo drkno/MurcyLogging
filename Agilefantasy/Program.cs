@@ -45,7 +45,7 @@ namespace Agilefantasy
                 Console.WriteLine("Got {0} total hours", time.TotalHours);
 
                 Console.WriteLine("Attempting to get sprints...");
-                var sprints = await client.GetSprintSummaies(7);
+                var sprints = await client.GetSprintSummaries(7);
                 Console.WriteLine("Got {0} sprints", sprints.Length);
 
                 Console.WriteLine("Attempting to get sprint details...");
