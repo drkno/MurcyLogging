@@ -23,15 +23,15 @@ namespace Agilefantasy
         }
 
         [JsonProperty("assignees")]
-        public Assignee[] Assignees { get; set; }
+        public Assignee[] Assignees { get; protected set; }
         [JsonProperty("backlogSize")]
-        public int BacklogSize { get; set; }
+        public int BacklogSize { get; protected set; }
         [JsonProperty("baselineLoad")]
-        public object BaselineLoad { get; set; }
+        public object BaselineLoad { get; protected set; }
         [JsonProperty("class")]
-        public string InternalClass { get; set; }
+        public string InternalClass { get; protected set; }
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string Description { get; protected set; }
         [JsonProperty("endDate")]
         protected long EndDateLong { get; set; }
 
@@ -43,21 +43,21 @@ namespace Agilefantasy
             }
         }
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int Id { get; protected set; }
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; protected set; }
         [JsonProperty("product")]
-        public bool Product { get; set; }
+        public bool Product { get; protected set; }
         [JsonProperty("rankedStories")]
-        public Rankedstory[] RankedStories { get; set; }
+        public Rankedstory[] RankedStories { get; protected set; }
         [JsonProperty("readonlyToken")]
-        public object ReadonlyToken { get; set; }
+        public object ReadonlyToken { get; protected set; }
         [JsonProperty("root")]
-        public AgilefantBacklogProductSummary ProductSummary { get; set; }
+        public AgilefantBacklogProductSummary ProductSummary { get; protected set; }
         [JsonProperty("scheduleStatus")]
-        public string ScheduleStatus { get; set; }
+        public string ScheduleStatus { get; protected set; }
         [JsonProperty("standAlone")]
-        public bool StandAlone { get; set; }
+        public bool StandAlone { get; protected set; }
         [JsonProperty("startDate")]
         protected long StartDateLong { get; set; }
 
@@ -70,90 +70,90 @@ namespace Agilefantasy
         }
 
         [JsonProperty("tasks")]
-        public Task1[] tasks { get; set; }
+        public Task1[] tasks { get; protected set; }
 
         public class Assignee
         {
             [JsonProperty("class")]
-            public string InternalClass { get; set; }
+            public string InternalClass { get; protected set; }
             [JsonProperty("Id")]
-            public int Id { get; set; }
+            public int Id { get; protected set; }
             [JsonProperty("initials")]
-            public string Initials { get; set; }
+            public string Initials { get; protected set; }
         }
 
         public class Rankedstory
         {
-            public string _class { get; set; }
-            public string description { get; set; }
-            public int effortSpent { get; set; }
-            public string highestPoints { get; set; }
-            public int id { get; set; }
-            public AgilefantSprint iteration { get; set; }
-            public object[] labels { get; set; }
-            public Metrics metrics { get; set; }
-            public string name { get; set; }
-            public object parent { get; set; }
-            public int rank { get; set; }
-            public Responsible[] responsibles { get; set; }
-            public string state { get; set; }
-            public int storyPoints { get; set; }
-            public object storyValue { get; set; }
-            public Task[] tasks { get; set; }
-            public int treeRank { get; set; }
-            public object workQueueRank { get; set; }
+            public string _class { get; protected set; }
+            public string description { get; protected set; }
+            public int effortSpent { get; protected set; }
+            public string highestPoints { get; protected set; }
+            public int id { get; protected set; }
+            public AgilefantSprint iteration { get; protected set; }
+            public object[] labels { get; protected set; }
+            public Metrics metrics { get; protected set; }
+            public string name { get; protected set; }
+            public object parent { get; protected set; }
+            public int rank { get; protected set; }
+            public Responsible[] responsibles { get; protected set; }
+            public string state { get; protected set; }
+            public int storyPoints { get; protected set; }
+            public object storyValue { get; protected set; }
+            public Task[] tasks { get; protected set; }
+            public int treeRank { get; protected set; }
+            public object workQueueRank { get; protected set; }
         }
 
         public class Metrics
         {
-            public string _class { get; set; }
-            public int effortLeft { get; set; }
-            public int effortSpent { get; set; }
-            public int originalEstimate { get; set; }
+            public string _class { get; protected set; }
+            public int effortLeft { get; protected set; }
+            public int effortSpent { get; protected set; }
+            public int originalEstimate { get; protected set; }
         }
 
         public class Responsible
         {
-            public string _class { get; set; }
-            public int id { get; set; }
-            public string initials { get; set; }
+            public string _class { get; protected set; }
+            public int id { get; protected set; }
+            public string initials { get; protected set; }
         }
 
         public class Task
         {
-            public string _class { get; set; }
-            public string description { get; set; }
-            public int effortLeft { get; set; }
-            public int effortSpent { get; set; }
-            public int id { get; set; }
-            public string name { get; set; }
-            public int originalEstimate { get; set; }
-            public int rank { get; set; }
-            public Responsible1[] responsibles { get; set; }
-            public string state { get; set; }
-            public object[] workingOnTask { get; set; }
+            public string _class { get; protected set; }
+            public string description { get; protected set; }
+            public int effortLeft { get; protected set; }
+            public int effortSpent { get; protected set; }
+            public int id { get; protected set; }
+            public string name { get; protected set; }
+            public int originalEstimate { get; protected set; }
+            public int rank { get; protected set; }
+            public Responsible1[] responsibles { get; protected set; }
+            public string state { get; protected set; }
+            public object[] workingOnTask { get; protected set; }
         }
 
         public class Responsible1
         {
-            public string _class { get; set; }
-            public int id { get; set; }
-            public string initials { get; set; }
+            public string _class { get; protected set; }
+            public int id { get; protected set; }
+            public string initials { get; protected set; }
         }
 
         public class Task1
         {
-            public string _class { get; set; }
-            public string description { get; set; }
-            public int effortLeft { get; set; }
-            public int effortSpent { get; set; }
-            public int id { get; set; }
-            public string name { get; set; }
-            public int originalEstimate { get; set; }
-            public int rank { get; set; }
-            public Responsible2[] responsibles { get; set; }
-            public string state { get; set; }
-            public object[] workingOnTask { get; set; }
+            public string _class { get; protected set; }
+            public string description { get; protected set; }
+            public int effortLeft { get; protected set; }
+            public int effortSpent { get; protected set; }
+            public int id { get; protected set; }
+            public string name { get; protected set; }
+            public int originalEstimate { get; protected set; }
+            public int rank { get; protected set; }
+            public Responsible2[] responsibles { get; protected set; }
+            public string state { get; protected set; }
+            public object[] workingOnTask { get; protected set; }
         }
 
         public class Responsible2
