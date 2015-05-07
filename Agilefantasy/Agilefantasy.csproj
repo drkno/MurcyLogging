@@ -51,9 +51,13 @@
     <Compile Include="AgilefantBacklog.cs" />
     <Compile Include="AgilefantBacklogProductSummary.cs" />
     <Compile Include="AgilefantClient.cs" />
+    <Compile Include="AgilefantResponsible.cs" />
     <Compile Include="AgilefantSession.cs" />
+    <Compile Include="AgilefantSprintSummary.cs" />
     <Compile Include="AgilefantSprint.cs" />
-    <Compile Include="AgilefantDetailedSprint.cs" />
+    <Compile Include="Story\AgilefantStoryMetrics.cs" />
+    <Compile Include="Story\AgilefantStory.cs" />
+    <Compile Include="AgilefantTask.cs" />
     <Compile Include="AgilefantTime.cs" />
     <Compile Include="AgilefantUser.cs" />
     <Compile Include="Program.cs" />
@@ -62,6 +66,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

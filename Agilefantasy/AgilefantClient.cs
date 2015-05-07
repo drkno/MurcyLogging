@@ -25,9 +25,9 @@ namespace Agilefantasy
         /// Gets a list of sprints for the current user
         /// </summary>
         /// <returns></returns>
-        public Task<AgilefantSprint[]> GetSprints(int backlogId)
+        public Task<AgilefantSprintSummary[]> GetSprints(int backlogId)
         {
-            return AgilefantSprint.GetSprints(backlogId, _session);
+            return AgilefantSprintSummary.GetSprints(backlogId, _session);
         }
 
         /// <summary>
