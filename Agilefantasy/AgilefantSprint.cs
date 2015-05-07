@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading.Tasks;
+using Agilefantasy.Common;
 using Agilefantasy.Story;
 using Newtonsoft.Json;
 
 namespace Agilefantasy
 {
-    public class AgilefantSprint
+    public class AgilefantSprint : AgilefantBase
     {
         /// <summary>
         /// Gets details about a sprint with a specified ID.
@@ -16,7 +17,7 @@ namespace Agilefantasy
         /// <returns>Details of the specified sprint.</returns>
         public static async Task<AgilefantSprint> GetSprint(int sprintId, AgilefantSession session)
         {
-            var url = string.Format("iterationData.action?iterationId={0}", sprintId);
+            var url = string.Format("ajax/iterationData.action?iterationId={0}", sprintId);
             var response = await session.Get(url);
             response.EnsureSuccessStatusCode();
 
@@ -50,18 +51,15 @@ namespace Agilefantasy
         }
 
         [JsonProperty("assignees")]
-        public Assignee[] Assignees { get; protected set; }
+        public AgilefantResponsible[] Assignees { get; private set; }
         [JsonProperty("backlogSize")]
-        public int BacklogSize { get; protected set; }
+        public int BacklogSize { get; private set; }
         [JsonProperty("baselineLoad")]
-        public object BaselineLoad { get; protected set; }
-        [JsonProperty("class")]
-        public string InternalClass { get; protected set; }
+        public object BaselineLoad { get; private set; }
         [JsonProperty("description")]
-        public string Description { get; protected set; }
+        public string Description { get; private set; }
         [JsonProperty("endDate")]
-        protected long EndDateLong { get; set; }
-
+        private long EndDateLong { get; set; }
         public DateTime EndTime
         {
             get
@@ -69,25 +67,22 @@ namespace Agilefantasy
                 return new DateTime(1970, 1, 1).AddMilliseconds(EndDateLong);
             }
         }
-        [JsonProperty("id")]
-        public int Id { get; protected set; }
         [JsonProperty("name")]
-        public string Name { get; protected set; }
+        public string Name { get; private set; }
         [JsonProperty("product")]
-        public bool Product { get; protected set; }
+        public bool Product { get; private set; }
         [JsonProperty("rankedStories")]
-        public AgilefantStory[] RankedStories { get; protected set; }
+        public AgilefantStory[] RankedStories { get; private set; }
         [JsonProperty("readonlyToken")]
-        public object ReadonlyToken { get; protected set; }
+        public object ReadonlyToken { get; private set; }
         [JsonProperty("root")]
-        public AgilefantBacklogProductSummary ProductSummary { get; protected set; }
+        public AgilefantBacklogProductSummary ProductSummary { get; private set; }
         [JsonProperty("scheduleStatus")]
-        public string ScheduleStatus { get; protected set; }
+        public string ScheduleStatus { get; private set; }
         [JsonProperty("standAlone")]
-        public bool StandAlone { get; protected set; }
+        public bool StandAlone { get; private set; }
         [JsonProperty("startDate")]
-        protected long StartDateLong { get; set; }
-
+        private long StartDateLong { get; set; }
         public DateTime StartDate
         {
             get
@@ -95,18 +90,7 @@ namespace Agilefantasy
                 return new DateTime(1970, 1, 1).AddMilliseconds(StartDateLong);
             }
         }
-
         [JsonProperty("tasks")]
-        public Task[] Tasks { get; protected set; }
-
-        public class Assignee
-        {
-            [JsonProperty("class")]
-            public string InternalClass { get; protected set; }
-            [JsonProperty("id")]
-            public int Id { get; protected set; }
-            [JsonProperty("initials")]
-            public string Initials { get; protected set; }
-        }
+        public Task[] Tasks { get; private set; }
     }
 }

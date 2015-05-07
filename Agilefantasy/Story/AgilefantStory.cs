@@ -1,45 +1,42 @@
 ﻿using System.Threading.Tasks;
+using Agilefantasy.Common;
 using Newtonsoft.Json;
 
 namespace Agilefantasy.Story
 {
-    public class AgilefantStory
+    public class AgilefantStory : AgilefantBase
     {
-        [JsonProperty("class")]
-        public string Class { get; protected set; }
         [JsonProperty("description")]
-        public string Description { get; protected set; }
+        public string Description { get; private set; }
         [JsonProperty("effortSpent")]
-        public int EffortSpent { get; protected set; }
+        public int EffortSpent { get; private set; }
         [JsonProperty("highestPoints")]
-        public string HighestPoints { get; protected set; }
-        [JsonProperty("id")]
-        public int Id { get; protected set; }
+        public string HighestPoints { get; private set; }
         [JsonProperty("iteration")]
-        public AgilefantSprintSummary Iteration { get; protected set; }
+        public AgilefantSprintSummary Iteration { get; private set; }
         [JsonProperty("labels")]
-        public object[] Labels { get; protected set; }
+        public object[] Labels { get; private set; }
         [JsonProperty("metrics")]
-        public AgilefantStoryMetrics Metrics { get; protected set; }
+        public AgilefantStoryMetrics Metrics { get; private set; }
         [JsonProperty("name")]
-        public string Name { get; protected set; }
+        public string Name { get; private set; }
         [JsonProperty("parent")]
-        public object Parent { get; protected set; }
+        public object Parent { get; private set; }
         [JsonProperty("rank")]
-        public int Rank { get; protected set; }
+        public int Rank { get; private set; }
         [JsonProperty("responsibles")]
-        public AgilefantResponsible[] AgilefantResponsibles { get; protected set; }
+        public AgilefantResponsible[] AgilefantResponsibles { get; private set; }
         [JsonProperty("state")]
-        public string State { get; protected set; }
+        public string State { get; private set; }
         [JsonProperty("storyPoints")]
-        public int StoryPoints { get; protected set; }
+        public int StoryPoints { get; private set; }
         [JsonProperty("storyValue")]
-        public object StoryValue { get; protected set; }
+        public object StoryValue { get; private set; }
         [JsonProperty("tasks")]
-        public Task[] Tasks { get; protected set; }
+        public Task[] Tasks { get; private set; }
         [JsonProperty("treeRank")]
-        public int TreeRank { get; protected set; }
+        public int TreeRank { get; private set; }
         [JsonProperty("workQueueRank")]
-        public object WorkQueueRank { get; protected set; }
+        public object WorkQueueRank { get; private set; }
     }
 }

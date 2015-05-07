@@ -1,59 +1,51 @@
 ﻿#region
 
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
+using Agilefantasy.Common;
 using Newtonsoft.Json;
 
 #endregion
 
 namespace Agilefantasy
 {
-    public class AgilefantUser
+    public class AgilefantUser : AgilefantBase
     {
         [JsonProperty("admin")]
-        public bool Admin { get; protected set; }
+        public bool Admin { get; private set; }
 
         [JsonProperty("autoassignToStories")]
-        public bool AutoassignToStories { get; protected set; }
+        public bool AutoassignToStories { get; private set; }
 
         [JsonProperty("autoassignToTasks")]
-        public bool AutoassignToTasks { get; protected set; }
-
-        [JsonProperty("class")]
-        public string InternalClass { get; protected set; }
+        public bool AutoassignToTasks { get; private set; }
 
         [JsonProperty("email")]
-        public string Email { get; protected set; }
+        public string Email { get; private set; }
 
         [JsonProperty("enabled")]
-        public bool Enabled { get; protected set; }
+        public bool Enabled { get; private set; }
 
         [JsonProperty("fullName")]
-        public string Name { get; protected set; }
-
-        [JsonProperty("id")]
-        public int Id { get; protected set; }
+        public string Name { get; private set; }
 
         [JsonProperty("initials")]
-        public string Initials { get; protected set; }
+        public string Initials { get; private set; }
 
         [JsonProperty("loginName")]
-        public string LoginName { get; protected set; }
+        public string LoginName { get; private set; }
 
         [JsonProperty("markStoryStarted")]
-        public string MarkStoryStarted { get; protected set; }
+        public string MarkStoryStarted { get; private set; }
 
         [JsonProperty("name")]
-        public string UserCode { get; protected set; }
+        public string UserCode { get; private set; }
 
         [JsonProperty("recentItemsNumberOfWeeks")]
-        public int RecentItemsNumberOfWeeks { get; protected set; }
+        public int RecentItemsNumberOfWeeks { get; private set; }
 
         [JsonProperty("weekEffort")]
-        public object WeekEffort { get; protected set; }
+        public object WeekEffort { get; private set; }
 
         internal static async Task<AgilefantUser[]> GetAgilefantUsers(AgilefantSession session)
         {
@@ -69,25 +61,25 @@ namespace Agilefantasy
         protected class AgilefantUserWrapper
         {
             [JsonProperty("baseClassName")]
-            public string BaseClassName { get; protected set; }
+            public string BaseClassName { get; private set; }
 
             [JsonProperty("enabled")]
-            public bool Enabled { get; protected set; }
+            public bool Enabled { get; private set; }
 
             [JsonProperty("id")]
-            public int Id { get; protected set; }
+            public int Id { get; private set; }
 
             [JsonProperty("idList")]
-            public object IdList { get; protected set; }
+            public object IdList { get; private set; }
 
             [JsonProperty("matchedString")]
-            public string MatchedString { get; protected set; }
+            public string MatchedString { get; private set; }
 
             [JsonProperty("name")]
-            public string Name { get; protected set; }
+            public string Name { get; private set; }
 
             [JsonProperty("originalObject")]
-            public AgilefantUser OriginalObject { get; protected set; }
+            public AgilefantUser OriginalObject { get; private set; }
         }
     }
 }

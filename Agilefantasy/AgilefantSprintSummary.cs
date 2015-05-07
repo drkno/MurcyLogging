@@ -2,60 +2,51 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using Agilefantasy.Common;
 using Newtonsoft.Json;
 
 #endregion
 
 namespace Agilefantasy
 {
-    public class AgilefantSprintSummary
+    public class AgilefantSprintSummary : AgilefantBase
     {
         [JsonProperty("backlogSize")]
-        public int BacklogSize { get; set; }
+        public int BacklogSize { get; private set; }
 
         [JsonProperty("baselineLoad")]
-        public object BaselineLoad { get; set; }
-
-        [JsonProperty("class")]
-        public string InternalClass { get; set; }
+        public object BaselineLoad { get; private set; }
 
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
         [JsonProperty("endDate")]
-        protected long EndDateLong { get; set; }
+        protected long EndDateLong { get; private set; }
 
         public DateTime EndDate
         {
             get { return new DateTime(1970, 1, 1).AddMilliseconds(EndDateLong); }
         }
 
-        [JsonProperty("id")]
-        public int Id { get; set; }
-
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         [JsonProperty("product")]
-        public bool Product { get; set; }
+        public bool Product { get; private set; }
 
         [JsonProperty("readonlyToken")]
-        public object ReadonlyToken { get; set; }
+        public object ReadonlyToken { get; private set; }
 
         [JsonProperty("root")]
-        public AgilefantBacklogProductSummary Root { get; set; }
+        public AgilefantBacklogProductSummary ProductSummary { get; private set; }
 
         [JsonProperty("standAlone")]
-        public bool StandAlone { get; set; }
+        public bool StandAlone { get; private set; }
 
         [JsonProperty("startDate")]
-        protected long StartDateLong { get; set; }
+        protected long StartDateLong { get; private set; }
 
         public DateTime StartDate
         {

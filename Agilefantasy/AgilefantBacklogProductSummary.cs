@@ -1,30 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Agilefantasy.Common;
 using Newtonsoft.Json;
 
 namespace Agilefantasy
 {
-    public class AgilefantBacklogProductSummary
+    public class AgilefantBacklogProductSummary : AgilefantBase
     {
-        [JsonProperty("class")]
-        public string InternalClass { get; set; }
-
         [JsonProperty("description")]
-        public string Description { get; set; }
-
-        [JsonProperty("id")]
-        public int Id { get; set; }
+        public string Description { get; private set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         [JsonProperty("product")]
-        public bool Product { get; set; }
+        public bool Product { get; private set; }
 
         [JsonProperty("standAlone")]
-        public bool StandAlone { get; set; }
+        public bool StandAlone { get; private set; }
     }
 }

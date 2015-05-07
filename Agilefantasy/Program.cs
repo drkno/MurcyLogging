@@ -45,8 +45,15 @@ namespace Agilefantasy
                 Console.WriteLine("Got {0} total hours", time.TotalHours);
 
                 Console.WriteLine("Attempting to get sprints...");
-                var sprints = await client.GetSprints(7);
+                var sprints = await client.GetSprintSummaies(7);
                 Console.WriteLine("Got {0} sprints", sprints.Length);
+
+                Console.WriteLine("Attempting to get sprint details...");
+                var sprint = await client.GetSprint(14);
+                Console.WriteLine("Got sprint \"{0}\", with {1} stories and {2} tasks on first story.", sprint.Name,
+                    sprint.RankedStories.Length, sprint.RankedStories[0].Tasks.Length);
+
+                session.Logout();
             }
             catch (WebException e)
             {

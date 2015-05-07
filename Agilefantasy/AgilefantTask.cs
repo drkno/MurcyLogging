@@ -1,30 +1,27 @@
-﻿using Newtonsoft.Json;
+﻿using Agilefantasy.Common;
+using Newtonsoft.Json;
 
 namespace Agilefantasy
 {
-    public class AgilefantTask
+    public class AgilefantTask : AgilefantBase
     {
-        [JsonProperty("class")]
-        public string InternalClass { get; protected set; }
         [JsonProperty("description")]
-        public string Description { get; protected set; }
+        public string Description { get; private set; }
         [JsonProperty("effortLeft")]
-        public int EffortLeft { get; protected set; }
+        public int EffortLeft { get; private set; }
         [JsonProperty("effortSpent")]
-        public int EffortSpent { get; protected set; }
-        [JsonProperty("id")]
-        public int Id { get; protected set; }
+        public int EffortSpent { get; private set; }
         [JsonProperty("name")]
-        public string Name { get; protected set; }
+        public string Name { get; private set; }
         [JsonProperty("originalEstimate")]
-        public int OriginalEstimate { get; protected set; }
+        public int OriginalEstimate { get; private set; }
         [JsonProperty("rank")]
-        public int Rank { get; protected set; }
+        public int Rank { get; private set; }
         [JsonProperty("responsibles")]
-        public AgilefantResponsible[] AgilefantResponsibles { get; protected set; }
+        public AgilefantResponsible[] AgilefantResponsibles { get; private set; }
         [JsonProperty("state")]
-        public string State { get; protected set; }
+        public string State { get; private set; }
         [JsonProperty("workingOnTask")]
-        public object[] WorkingOnTask { get; protected set; }
+        public object[] WorkingOnTask { get; private set; }
     }
 }

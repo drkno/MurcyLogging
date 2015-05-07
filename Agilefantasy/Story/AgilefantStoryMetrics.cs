@@ -1,16 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using Agilefantasy.Common;
+using Newtonsoft.Json;
 
-namespace Agilefantasy
+namespace Agilefantasy.Story
 {
-    public class AgilefantStoryMetrics
+    public class AgilefantStoryMetrics : AgilefantBase
     {
-        [JsonProperty("class")]
-        public string InternalClass { get; protected set; }
         [JsonProperty("effortLeft")]
-        public int EffortLeft { get; protected set; }
+        public int EffortLeft { get; private set; }
         [JsonProperty("effortSpent")]
-        public int EffortSpent { get; protected set; }
+        public int EffortSpent { get; private set; }
         [JsonProperty("originalEstimate")]
-        public int OriginalEstimate { get; protected set; }
+        public int OriginalEstimate { get; private set; }
     }
 }
