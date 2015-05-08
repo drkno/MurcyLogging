@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Agilefantasy.Common;
 
 namespace Agilefantasy
 {
@@ -14,6 +15,12 @@ namespace Agilefantasy
 #if DEBUG
             Console.ReadKey();
 #endif
+        }
+
+        private static async Task PostTime()
+        {
+            throw new NotImplementedException();
+            //AgilefantTask.AddTask(new AgilefantBacklog() {Id = 6}, )
         }
 
         private static async Task RunTests()
