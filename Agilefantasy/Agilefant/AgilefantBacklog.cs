@@ -1,19 +1,15 @@
 ﻿#region
 
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 #endregion
 
-namespace Agilefantasy
+namespace Agilefantasy.Agilefant
 {
-    public class AgilefantBacklog
+    public class AgilefantBacklog : AgilefantBase
     {
         [JsonProperty("backlogSize")]
         public object BacklogSize { get; set; }
@@ -21,17 +17,11 @@ namespace Agilefantasy
         [JsonProperty("baselineLoad")]
         public int BaselineLoad { get; set; }
 
-        [JsonProperty("class")]
-        public string InternalClass { get; set; }
-
         [JsonProperty("description")]
         public string Description { get; set; }
 
         [JsonProperty("endDate")]
         public long EndDate { get; set; }
-
-        [JsonProperty("id")]
-        public int Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -43,7 +33,7 @@ namespace Agilefantasy
         public int Rank { get; set; }
 
         [JsonProperty("root")]
-        public AgilefantBacklogProductSummary Root { get; set; }
+        public AgilefantBacklogProductSummary ProductSummary { get; set; }
 
         [JsonProperty("standAlone")]
         public bool StandAlone { get; set; }
@@ -70,27 +60,6 @@ namespace Agilefantasy
 
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<AgilefantBacklog[]>(json);
-        }
-
-        public class AgilefantBacklogProductSummary
-        {
-            [JsonProperty("class")]
-            public string InternalClass { get; set; }
-
-            [JsonProperty("description")]
-            public string Description { get; set; }
-
-            [JsonProperty("id")]
-            public int Id { get; set; }
-
-            [JsonProperty("name")]
-            public string Name { get; set; }
-
-            [JsonProperty("product")]
-            public bool Product { get; set; }
-
-            [JsonProperty("standAlone")]
-            public bool StandAlone { get; set; }
         }
     }
 }

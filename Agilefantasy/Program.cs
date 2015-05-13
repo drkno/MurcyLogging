@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Agilefantasy.Agilefant;
+using Agilefantasy.Restful;
 
 namespace Agilefantasy
 {
@@ -21,6 +23,10 @@ namespace Agilefantasy
 
         private static async Task RunTests()
         {
+            var server = new RestServer(8080);
+            server.Start();
+            Console.ReadKey();
+
             Console.Write("Enter username: ");
             var username = Console.ReadLine();
 

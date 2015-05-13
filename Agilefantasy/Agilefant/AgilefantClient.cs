@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Threading.Tasks;
 
-namespace Agilefantasy
+namespace Agilefantasy.Agilefant
 {
     public class AgilefantClient
     {
@@ -18,16 +12,26 @@ namespace Agilefantasy
         /// <param name="session"></param>
         public AgilefantClient(AgilefantSession session)
         {
-            this._session = session;
+            _session = session;
         }
 
         /// <summary>
         /// Gets a list of sprints for the current user
         /// </summary>
         /// <returns></returns>
-        public Task<AgilefantSprint[]> GetSprints(int backlogId)
+        public Task<AgilefantSprintSummary[]> GetSprintSummaries(int backlogId)
         {
-            return AgilefantSprint.GetSprints(backlogId, _session);
+            return AgilefantSprintSummary.GetSprints(backlogId, _session);
+        }
+
+        /// <summary>
+        /// Gets detail about a specific sprint.
+        /// </summary>
+        /// <param name="sprintId">Id of the sprint to get.</param>
+        /// <returns>Sprint details.</returns>
+        public Task<AgilefantSprint> GetSprint(int sprintId)
+        {
+            return AgilefantSprint.GetSprint(sprintId, _session);
         }
 
         /// <summary>
