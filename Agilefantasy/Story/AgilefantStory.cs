@@ -33,10 +33,15 @@ namespace Agilefantasy.Story
         [JsonProperty("storyValue")]
         public object StoryValue { get; private set; }
         [JsonProperty("tasks")]
-        public Task[] Tasks { get; private set; }
+        public AgilefantTask[] Tasks { get; private set; }
         [JsonProperty("treeRank")]
         public int TreeRank { get; private set; }
         [JsonProperty("workQueueRank")]
         public object WorkQueueRank { get; private set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}", Id, Name);
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace MurcyLogging.Agilefant
     public interface IAgilefantTag
     {
         Tag Tag { get; }
+        string Description { get; set; }
 
         string Serialize();
     }

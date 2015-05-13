@@ -23,5 +23,10 @@ namespace Agilefantasy
         public string State { get; private set; }
         [JsonProperty("workingOnTask")]
         public object[] WorkingOnTask { get; private set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}", Id, Name);
+        }
     }
 }

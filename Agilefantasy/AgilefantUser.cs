@@ -58,6 +58,11 @@ namespace Agilefantasy
             return (from wrapper in wrappers select wrapper.OriginalObject).ToArray();
         }
 
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}", LoginName, Name);
+        }
+
         protected class AgilefantUserWrapper
         {
             [JsonProperty("baseClassName")]

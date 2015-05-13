@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Agilefantasy;
-using MurcyLogging.Agilefant;
 
-namespace MurcyLogging
+namespace MurcyLogging.Agilefant
 {
     public enum Tag
     {
@@ -24,6 +22,34 @@ namespace MurcyLogging
 
     public class AgilefantDesciption
     {
+        private static readonly Dictionary<Tag, string> Descriptions = new Dictionary<Tag, string>()
+        {
+            {Tag.Implement, "Code was written that implemented some functionality."},
+            {Tag.Document, "Documentation eg User Guide or JavaDoc was written."},
+            {Tag.Test, "Unit tests and integration tests written."},
+            {Tag.TestManual, "Manual testing performed and the manual test plan used."},
+            {Tag.Fix, "A bug was fixed."},
+            {Tag.Chore, "Misc tasks eg. Jenkins or reviewing a pull request"},
+            {Tag.Refactor, "Refactoring carried out due to code-test-refactor process."},
+            {Tag.Pair, "A list of people you peer programmed with"},
+            {Tag.Commits, "A list of commits relevant to this chunk of work"},
+            {Tag.Detail, "Extended comment about what you did in this session."},
+        };
+
+        private static readonly Dictionary<Tag, string> Titles = new Dictionary<Tag, string>()
+        {
+            {Tag.Implement, "Implemented"},
+            {Tag.Document, "Documented"},
+            {Tag.Test, "Tested"},
+            {Tag.TestManual, "Manually Tested"},
+            {Tag.Fix, "Fixed"},
+            {Tag.Chore, "Chore"},
+            {Tag.Refactor, "Refactored"},
+            {Tag.Pair, "Pair Programmed With"},
+            {Tag.Commits, "Commited"},
+            {Tag.Detail, "Extra Detail"},
+        };
+
         public List<IAgilefantTag> Tags { get; private set; }
 
         private MultiTag commitsTag;
@@ -89,17 +115,10 @@ namespace MurcyLogging
             if (type == Tag.Commits || type == Tag.Pair)
                 throw new InvalidOperationException("The tag type '" + type + "' is special in that it needs some extra data. Use the AddPair or AddCommit methods");
             
-            if (HasTag(type)) throw new InvalidOperationException("The description already has a '" + type + "' tag!");
-
             var tag = new BasicTag(){Tag = type, Content = description};
             Tags.Add(tag);
 
             return this;
-        }
-
-        public bool HasTag(Tag type)
-        {
-            return Tags.Any(t => t.Tag == type);
         }
 
         public static AgilefantDesciption New()
@@ -170,6 +189,16 @@ namespace MurcyLogging
                 builder.Append(tag.Serialize());
             }
             return builder.ToString();
+        }
+
+        public static string GetTitle(Tag tag)
+        {
+            return Titles[tag];
+        }
+
+        public static string GetDescription(Tag tag)
+        {
+            return Descriptions[tag];
         }
     }
 }

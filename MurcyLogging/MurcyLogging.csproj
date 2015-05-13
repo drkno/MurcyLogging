@@ -69,12 +69,6 @@
     <Compile Include="CreationWindow.Designer.cs">
       <DependentUpon>CreationWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="GenerateWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GenerateWindow.Designer.cs">
-      <DependentUpon>GenerateWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="LoginWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,9 +88,6 @@
     </Compile>
     <EmbeddedResource Include="CreationWindow.resx">
       <DependentUpon>CreationWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GenerateWindow.resx">
-      <DependentUpon>GenerateWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginWindow.resx">
       <DependentUpon>LoginWindow.cs</DependentUpon>

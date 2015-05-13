@@ -9,6 +9,8 @@ namespace MurcyLogging.Agilefant
     public class MultiTag : IAgilefantTag
     {
         public Tag Tag { get; set; }
+        public string Description { get; set; }
+
         public List<string> InfoPieces { get; private set; }
 
         public MultiTag()

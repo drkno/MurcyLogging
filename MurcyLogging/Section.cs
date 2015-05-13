@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Windows.Forms;
+using MurcyLogging.Agilefant;
 
 namespace MurcyLogging
 {
     public partial class Section : UserControl
     {
         public Action<Section> RemoveSection;
-        private readonly string _hashTag;
 
-        public Section(string sectionName, string sectionDescription, string hashTag)
+        public Tag Tag { get; private set; }
+        public string Content { get { return richTextBox1.Text; } }
+
+
+        public Section(Tag tag)
         {
+            Tag = tag;
+
             InitializeComponent();
-            labelSectionTitle.Text = sectionName;
-            labelDescription.Text = sectionDescription;
-            _hashTag = hashTag;
+
+            labelSectionTitle.Text = AgilefantDesciption.GetDescription(tag);
+            labelDescription.Text = AgilefantDesciption.GetTitle(tag);
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
             if (RemoveSection != null) RemoveSection.Invoke(this);
-        }
-
-        public override string ToString()
-        {
-            return _hashTag + " " + richTextBox1.Text;
         }
     }
 }

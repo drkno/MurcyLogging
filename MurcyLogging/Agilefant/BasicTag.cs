@@ -10,6 +10,7 @@ namespace MurcyLogging.Agilefant
     public class BasicTag : IAgilefantTag
     {
         public Tag Tag { get; set; }
+        public string Description { get; set; }
         public string Content { get; set; }
 
         public string Serialize()

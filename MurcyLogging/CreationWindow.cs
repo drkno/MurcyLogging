@@ -1,29 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Drawing.Text;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Agilefantasy;
+using Agilefantasy.Story;
+using MurcyLogging.Agilefant;
+using Tag = MurcyLogging.Agilefant.Tag;
 
 namespace MurcyLogging
 {
     public partial class MainWindow : Form
     {
-        private AgilefantSession session;
+        private readonly ObservableCollection<AgilefantStory> _stories = new ObservableCollection<AgilefantStory>();
+        private readonly ObservableCollection<AgilefantTask> _tasks = new ObservableCollection<AgilefantTask>(); 
+        private readonly ObservableCollection<AgilefantUser> _users = new ObservableCollection<AgilefantUser>(); 
+ 
+        private AgilefantSession _session;
+        private AgilefantClient _client;
 
         public MainWindow(AgilefantSession newSession)
         {
-            this.session = newSession;
+            this._session = newSession;
+            this._client = new AgilefantClient(_session);
+
             InitializeComponent();
+
+            _stories.CollectionChanged += (sender, args) =>
+            {
+                comboBoxStory.Items.Clear();
+                comboBoxStory.Items.AddRange(_stories.ToArray());
+            };
+            _tasks.CollectionChanged += (sender, args) =>
+            {
+                comboBoxTask.Items.Clear();
+                comboBoxTask.Items.AddRange(_tasks.ToArray());
+            };
+            _users.CollectionChanged += (sender, args) =>
+            {
+                teamMembersPanel.Controls.Clear();
+                foreach (var user in _users)
+                {
+                    var checkBox = new CheckBox();
+                    checkBox.Text = user.ToString();
+                    checkBox.Tag = user;
+
+                    teamMembersPanel.Controls.Add(checkBox);
+                }
+            };
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
-            
+            await UpdateStories();
+            await UpdateUsers();
         }
 
-        private void AddSection(string sectionName, string sectionDescription, string hashTag)
+        private async Task UpdateStories()
         {
-            var section = new Section(sectionName, sectionDescription, hashTag);
+            var sprint = await _client.GetSprint(16);
+
+            _stories.Clear();
+            foreach (var story in sprint.RankedStories)
+                _stories.Add(story);
+        }
+
+        private async Task UpdateUsers()
+        {
+            var users = await _client.GetUsers();
+
+            _users.Clear();
+            foreach (var user in users)
+                _users.Add(user);
+        }
+
+        private void AddSection(Tag tag)
+        {
+            var section = new Section(tag);
             section.RemoveSection += RemoveSection;
 
             flowLayoutPanel.Controls.Add(section);
@@ -38,27 +93,44 @@ namespace MurcyLogging
         {
             switch (comboBoxAddSection.SelectedIndex)
             {
-                case 0: AddSection("Implemented", "Code was written that implemented some functionality.", "#implement"); break;
-                case 1: AddSection("Documented", "Documentation eg User Guide or JavaDoc was written.", "#document"); break;
-                case 2: AddSection("Fixed", "A bug was fixed.", "#fix"); break;
-                case 3: AddSection("Tested", "Unit tests and integration tests written.", "#test"); break;
-                case 4: AddSection("Manually Tested", "Manual testing performed and the manual test plan used.", "#testmanual"); break;
-                case 5: AddSection("Refactored", "Refactoring carried out due to code-test-refactor process.", "#refactor"); break;
-                case 6: AddSection("Detailed Description", "Extended comment about what you did in this session.", "#detail"); break;
-                case 7: AddSection("Chore (misc)", "Misc tasks eg. Jenkins", "#chore"); break;
+                case 0: AddSection(Agilefant.Tag.Implement); break;
+                case 1: AddSection(Agilefant.Tag.Document); break;
+                case 2: AddSection(Agilefant.Tag.Fix); break;
+                case 3: AddSection(Agilefant.Tag.Test); break;
+                case 4: AddSection(Agilefant.Tag.TestManual); break;
+                case 5: AddSection(Agilefant.Tag.Refactor); break;
+                case 6: AddSection(Agilefant.Tag.Detail); break;
+                case 7: AddSection(Agilefant.Tag.Chore); break;
             }
             comboBoxAddSection.SelectedIndex = -1;
         }
 
         private void GenerateClick(object sender, EventArgs e)
         {
-            var story = comboBoxStory.SelectedItem;
-            var task = comboBoxTask.SelectedItem;
-            var peer = multiselectComboBoxPeer.Text;
+            var story = comboBoxStory.SelectedItem as AgilefantStory;
+            var task = comboBoxTask.SelectedItem as AgilefantTask;
+
+            IAgilefantLoggable logAgainst = story ?? task;
+
             var commits = multiselectComboBoxCommits.Text;
-            var sections = (from object control in flowLayoutPanel.Controls select control.ToString()).ToArray();
-            var generateForm = new GenerateWindow(story, task, peer, commits, sections);
-            generateForm.ShowDialog();
+            var sections = (from object control in flowLayoutPanel.Controls where control is Section select control as Section);
+
+            var description = new AgilefantDesciption();
+            foreach (var section in sections)
+                description.AddTag(section.Tag, section.Content);
+
+            var message = description.Build();
+            MessageBox.Show(message);
+        }
+
+        private void comboBoxStory_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var story = comboBoxStory.SelectedItem as AgilefantStory;
+            if (story == null) return;
+
+            _tasks.Clear();
+            foreach (var task in story.Tasks)
+                _tasks.Add(task);
         }
     }
 }
