@@ -139,7 +139,7 @@ namespace MurcyLogging
 
             var users = GetSelectedUsers();
 
-            var logAgainst = story ?? task;
+            var logAgainst = task ?? story;
 
             var commits = multiselectComboBoxCommits.Text;
             var sections = (from object control in flowLayoutPanel.Controls where control is Section select control as Section);
