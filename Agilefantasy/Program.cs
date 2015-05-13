@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Agilefantasy.Agilefant;
 using Agilefantasy.Restful;
@@ -24,8 +21,26 @@ namespace Agilefantasy
         private static async Task RunTests()
         {
             var server = new RestServer(8080);
+            server += new RestfulUrlHandler("/rest/.*", p =>
+            {
+                p.WriteSuccess("testing123\r\n" + "You accessed the URL at \"" + p.HttpUrl + "\" with post data \"" + p.HttpPostData + "\"");
+            });
+            server += new RestfulUrlHandler("/login/.*", p =>
+            {
+                if (p.HttpHeaders["Authorization"] != null)
+                {
+                    var str = p.DecodeAuthenticationHeader();
+                    p.WriteSuccess(str);
+                }
+                else
+                {
+                    p.WriteAuthRequired();
+                }
+            });
+
             server.Start();
             Console.ReadKey();
+            server.Stop();
 
             Console.Write("Enter username: ");
             var username = Console.ReadLine();
@@ -54,8 +69,15 @@ namespace Agilefantasy
                 Console.WriteLine("Got {0} total hours", time.TotalHours);
 
                 Console.WriteLine("Attempting to get sprints...");
-                var sprints = await client.GetSprints(7);
+                var sprints = await client.GetSprintSummaries(7);
                 Console.WriteLine("Got {0} sprints", sprints.Length);
+
+                Console.WriteLine("Attempting to get sprint details...");
+                var sprint = await client.GetSprint(14);
+                Console.WriteLine("Got sprint \"{0}\", with {1} stories and {2} tasks on first story.", sprint.Name,
+                    sprint.RankedStories.Length, sprint.RankedStories[0].Tasks.Length);
+
+                session.Logout();
             }
             catch (WebException e)
             {

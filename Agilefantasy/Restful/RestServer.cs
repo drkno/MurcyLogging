@@ -6,9 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web.Http;
 
 namespace Agilefantasy.Restful
 {
@@ -67,14 +67,14 @@ namespace Agilefantasy.Restful
             }
         }
 
-        private void HandleRequest(HttpProcessor p, string postData)
+        private void HandleRequest(HttpProcessor processor)
         {
-            if (_handlers.Any(restfulUrlHandler => restfulUrlHandler.Execute(p.HttpUrl, postData)))
+            if (_handlers.Any(restfulUrlHandler => restfulUrlHandler.Execute(processor)))
             {
-                p.WriteSuccess();
+                if (!processor.ResponseWritten) processor.WriteSuccess();
                 return;
             }
-            p.WriteFailure();
+            processor.WriteFailure();
         }
 
         public void Start()
@@ -90,27 +90,27 @@ namespace Agilefantasy.Restful
 
         public void Stop()
         {
+            _isActive = false;
             _listenThread.Abort();
             _listenThread.Join();
-            _isActive = false;
         }
     }
 
     public class RestfulUrlHandler
     {
         private readonly Regex _urlRegex;
-        private readonly Func<string, string, string> _callback;
+        private readonly Action<HttpProcessor> _callback;
 
-        public RestfulUrlHandler(string urlRegex, Func<string,string,string> callback)
+        public RestfulUrlHandler(string urlRegex, Action<HttpProcessor> callback)
         {
             _urlRegex = new Regex("^" + urlRegex + "$", RegexOptions.Compiled);
             _callback = callback;
         }
 
-        public bool Execute(string url, string postData = "")
+        public bool Execute(HttpProcessor processor)
         {
-            if (!_urlRegex.IsMatch(url)) return false;
-            _callback.Invoke(url, postData);
+            if (!_urlRegex.IsMatch(processor.HttpUrl)) return false;
+            _callback.Invoke(processor);
             return true;
         }
     }
@@ -118,7 +118,7 @@ namespace Agilefantasy.Restful
     public class HttpProcessor
     {
         private readonly TcpClient _socket;
-        private readonly Action<HttpProcessor, string> _requestHandler;
+        private readonly Action<HttpProcessor> _requestHandler;
         private Stream _inputStream;
         private StreamWriter _outputStream;
 
@@ -126,15 +126,30 @@ namespace Agilefantasy.Restful
         public string HttpUrl { get; private set; }
         public string HttpVersion { get; private set; }
         public Hashtable HttpHeaders { get; private set; }
+        public Hashtable HttpResponseHeaders { get; private set; }
+        public Hashtable HttpCookies { get; private set; }
+        public Hashtable HttpResponseSetCookies { get; private set; }
+        public string HttpPostData { get; private set; }
+        public bool ResponseWritten { get; private set; }
 
         private const int MaxPostSize = 10485760;
         private const int BufSize = 4096;
 
-        public HttpProcessor(TcpClient tcpClient, Action<HttpProcessor, string> handleRequest)
+        public HttpProcessor(TcpClient tcpClient, Action<HttpProcessor> handleRequest)
         {
             _requestHandler = handleRequest;
             _socket = tcpClient;
             HttpHeaders = new Hashtable();
+            HttpResponseHeaders = new Hashtable();
+            HttpCookies = new Hashtable();
+            HttpResponseSetCookies = new Hashtable();
+        }
+
+        public string DecodeAuthenticationHeader()
+        {
+            var authString = (string) HttpHeaders["Authorization"];
+            var data = Convert.FromBase64String(authString.Split(' ')[1]);
+            return Encoding.UTF8.GetString(data);
         }
 
         private string InputReadLine()
@@ -156,7 +171,6 @@ namespace Agilefantasy.Restful
                     Thread.Sleep(1);
                     continue;
                 }
-                ;
                 data += Convert.ToChar(nextChar);
             }
             return data;
@@ -174,9 +188,9 @@ namespace Agilefantasy.Restful
                 string postData = null;
                 if (HttpMethod == HttpMethod.Post)
                 {
-                    postData = GetPostData();
+                    GetPostData();
                 }
-                _requestHandler.Invoke(this, postData);
+                _requestHandler.Invoke(this);
             }
             catch (Exception)
             {
@@ -200,9 +214,33 @@ namespace Agilefantasy.Restful
                 throw new Exception("invalid http request line");
             }
 
-            HttpMethod = (HttpMethod) Enum.Parse(typeof (HttpMethod), tokens[0].ToUpper());
+            switch (tokens[0].ToLower())
+            {
+                case "get": HttpMethod = HttpMethod.Get; break;
+                case "post": HttpMethod = HttpMethod.Post; break;
+                case "put": HttpMethod = HttpMethod.Put; break;
+                case "head": HttpMethod = HttpMethod.Head; break;
+                case "delete": HttpMethod = HttpMethod.Delete; break;
+                case "trace": HttpMethod = HttpMethod.Trace; break;
+                case "options": HttpMethod = HttpMethod.Options; break;
+                default: goto case "trace";
+            }
+
             HttpUrl = tokens[1];
             HttpVersion = tokens[2];
+
+            ReadCookies();
+        }
+
+        private void ReadCookies()
+        {
+            var cookie = (string)HttpHeaders["Cookie"];
+            if (cookie == null) return;
+            var cookies = cookie.Split(new []{"; ", ";"}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var spl in cookies.Select(s => s.Split('=')))
+            {
+                HttpCookies[spl[0].Trim()] = spl[1].Trim();
+            }
         }
 
         private void ReadHeaders()
@@ -218,22 +256,15 @@ namespace Agilefantasy.Restful
                 var separator = line.IndexOf(':');
                 if (separator == -1)
                 {
-                    throw new Exception("invalid http header line: " + line);
+                    throw new Exception("Invalid HTTP header: \"" + line + "\"");
                 }
                 var name = line.Substring(0, separator);
-                var pos = separator + 1;
-                while ((pos < line.Length) && (line[pos] == ' '))
-                {
-                    pos++; // strip any spaces
-                }
-
-                var value = line.Substring(pos, line.Length - pos);
-                Console.WriteLine("header: {0}:{1}", name, value);
+                var value = line.Substring(separator + 1).Trim();
                 HttpHeaders[name] = value;
             }
         }
 
-        private string GetPostData()
+        private void GetPostData()
         {
             var ms = new MemoryStream();
             if (HttpHeaders.ContainsKey("Content-Length"))
@@ -247,31 +278,24 @@ namespace Agilefantasy.Restful
                 var toRead = contentLen;
                 while (toRead > 0)
                 {
-                    Console.WriteLine("starting Read, to_read={0}", toRead);
-
-                    int numread = this._inputStream.Read(buf, 0, Math.Min(BufSize, toRead));
-                    Console.WriteLine("read finished, numread={0}", numread);
+                    var numread = _inputStream.Read(buf, 0, Math.Min(BufSize, toRead));
                     if (numread == 0)
                     {
                         if (toRead == 0)
                         {
                             break;
                         }
-                        else
-                        {
-                            throw new Exception("client disconnected during post");
-                        }
+                        throw new Exception("Client disconnected while reading POST data.");
                     }
                     toRead -= numread;
                     ms.Write(buf, 0, numread);
                 }
                 ms.Seek(0, SeekOrigin.Begin);
             }
-            Console.WriteLine("get post data end");
+
             var reader = new StreamReader(ms);
-            var data = reader.ReadToEnd();
+            HttpPostData = reader.ReadToEnd();
             reader.Close();
-            return data;
         }
 
         public void WriteSuccess(string response = null, string contentType = null)
@@ -279,18 +303,21 @@ namespace Agilefantasy.Restful
             WriteResponse("200 OK", response, contentType);
         }
 
-        public void WriteAuthRequired()
+        public void WriteAuthRequired(bool basicAuthentication = true, string errorMessage = "<b>401, Thou must login before slaying dragons.</b>")
         {
-            WriteResponse("401 Not Authorized", "<b>401, Thou must login before slaying dragons.</b>");
+            HttpResponseHeaders["WWW-Authenticate"] = "Basic realm=\"Login Required\"";
+            WriteResponse("401 Not Authorized", errorMessage);
         }
 
-        public void WriteFailure()
+        public void WriteFailure(string errorMessage = "<b>404, I cannot find what you are looking for.</b>")
         {
-            WriteResponse("404 File not found", "<b>404, I cannot find what you are looking for.</b>");
+            WriteResponse("404 File Not Found", errorMessage);
         }
 
         public void WriteResponse(string status, string response = null, string contentType = null)
         {
+            if (ResponseWritten) throw new Exception("Cannot send new response after response has been written.");
+            ResponseWritten = true;
             _outputStream.WriteLine("HTTP/1.0 " + status);
             _outputStream.WriteLine("Connection: close");
             if (!string.IsNullOrWhiteSpace(response))
@@ -298,6 +325,14 @@ namespace Agilefantasy.Restful
                 contentType = string.IsNullOrWhiteSpace(contentType) ? "text/html" : contentType;
                 _outputStream.WriteLine("Content-Type: " + contentType);
                 _outputStream.WriteLine("Content-Length: " + response.Length);
+            }
+            foreach (var header in HttpResponseHeaders.Keys)
+            {
+                _outputStream.WriteLine(header + ": " + HttpResponseHeaders[header]);
+            }
+            foreach (var cookie in HttpResponseSetCookies.Keys)
+            {
+                _outputStream.WriteLine("Set-Cookie: " + cookie + "=" + HttpResponseSetCookies[cookie]);
             }
             _outputStream.WriteLine("");
             if (!string.IsNullOrWhiteSpace(response))

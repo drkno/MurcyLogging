@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Agilefantasy;
+using Agilefantasy.Agilefant;
 
 namespace MurcyLogging
 {
     public partial class MainWindow : Form
     {
-        public MainWindow()
+        private AgilefantSession session;
+
+        public MainWindow(AgilefantSession newSession)
         {
+            this.session = newSession;
             InitializeComponent();
         }
 

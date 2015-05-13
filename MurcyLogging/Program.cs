@@ -13,7 +13,9 @@ namespace MurcyLogging
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            var login = new LoginWindow();
+            login.ShowDialog();
+            Application.Run(new MainWindow(login.Session));
         }
     }
 }

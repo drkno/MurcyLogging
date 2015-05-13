@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading.Tasks;
+using Agilefantasy.Agilefant.Common;
+using Agilefantasy.Agilefant.Story;
 using Newtonsoft.Json;
 
 namespace Agilefantasy.Agilefant
