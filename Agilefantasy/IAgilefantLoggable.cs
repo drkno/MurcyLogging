@@ -9,7 +9,7 @@ namespace Agilefantasy
     /// <summary>
     /// Indicates an item can have time logged against it
     /// </summary>
-    internal interface IAgilefantLoggable
+    public interface IAgilefantLoggable
     {
         /// <summary>
         /// The id of the item in the backlog

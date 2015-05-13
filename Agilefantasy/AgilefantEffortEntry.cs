@@ -27,9 +27,21 @@ namespace Agilefantasy
         /// <param name="from">The backlog item to get the effort entries for</param>
         /// <param name="session">The session</param>
         /// <returns>The effort entries</returns>
-        internal static async Task<IEnumerable<AgilefantEffortEntry>> GetEffortEntries(IAgilefantLoggable from, AgilefantSession session)
+        internal static Task<IEnumerable<AgilefantEffortEntry>> GetEffortEntries(IAgilefantLoggable from,
+            AgilefantSession session)
         {
-            var query = string.Format("ajax/retrieveTaskHourEntries.action?parentObjectId={0}&limited=false", from.Id);
+            return GetEffortEntries(from.Id, session);
+        }
+
+        /// <summary>
+        /// Gets all the effort entries for a backlog
+        /// </summary>
+        /// <param name="from">The backlog item to get the effort entries for</param>
+        /// <param name="session">The session</param>
+        /// <returns>The effort entries</returns>
+        internal static async Task<IEnumerable<AgilefantEffortEntry>> GetEffortEntries(int from, AgilefantSession session)
+        {
+            var query = string.Format("ajax/retrieveTaskHourEntries.action?parentObjectId={0}&limited=false", from);
             var response = await session.Get(query);
             
             var json = await response.Content.ReadAsStringAsync();
@@ -46,11 +58,11 @@ namespace Agilefantasy
         /// <param name="description">A description of the work done</param>
         /// <param name="users">The users to log time for</param>
         /// <param name="session">The session</param>
-        internal static Task AddTask(IAgilefantLoggable against, DateTime entryDate, int minutesSpent,
+        internal static Task LogTime(IAgilefantLoggable against, DateTime entryDate, int minutesSpent,
             string description,
             IEnumerable<AgilefantUser> users, AgilefantSession session)
         {
-            return AddTask(against.Id, entryDate, minutesSpent, description, from user in users select user.Id, session);
+            return LogTime(against.Id, entryDate, minutesSpent, description, from user in users select user.Id, session);
         }
 
         /// <summary>
@@ -62,7 +74,7 @@ namespace Agilefantasy
         /// <param name="description">A description of the entry</param>
         /// <param name="users">The users to log against</param>
         /// <param name="session">The session</param>
-        internal static Task AddTask(int parentObjectId, DateTime entryDate, int minutesSpent, string description,
+        internal static Task LogTime(int parentObjectId, DateTime entryDate, int minutesSpent, string description,
             IEnumerable<int> users, AgilefantSession session)
         {
             //Get the time in milliseconds since the epoch

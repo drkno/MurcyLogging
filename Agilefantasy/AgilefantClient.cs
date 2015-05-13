@@ -69,9 +69,27 @@ namespace Agilefantasy
             return AgilefantTime.GetTimes(teamNumber, backlogId, sprintId, userId, _session);
         }
 
+        /// <summary>
+        /// Logs time against a backlog item
+        /// </summary>
+        /// <param name="against">The item to log against</param>
+        /// <param name="entryDate">The entry date</param>
+        /// <param name="minutesSpent">The minutes spent</param>
+        /// <param name="comment">A description of the work effort</param>
+        /// <param name="users">The users to log for</param>
         public Task LogTime(IAgilefantLoggable against, DateTime entryDate, int minutesSpent, string comment, IEnumerable<AgilefantUser> users)
         {
-            return AgilefantTask.AddTask(against, entryDate, minutesSpent, comment, users, _session);
+            return AgilefantEffortEntry.LogTime(against, entryDate, minutesSpent, comment, users, _session);
+        }
+
+        /// <summary>
+        /// Gets the effort entries for a backlog item
+        /// </summary>
+        /// <param name="from">The loggable to get times from</param>
+        /// <returns>The effort entries for the task</returns>
+        public Task<IEnumerable<AgilefantEffortEntry>> GetEffortEntries(IAgilefantLoggable from)
+        {
+            return AgilefantEffortEntry.GetEffortEntries(from, _session);
         }
     }
 }
