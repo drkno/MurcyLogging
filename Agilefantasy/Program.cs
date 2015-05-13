@@ -62,13 +62,18 @@ namespace Agilefantasy
                 Console.WriteLine("Got sprint \"{0}\", with {1} stories and {2} tasks on first story.", sprint.Name,
                     sprint.RankedStories.Length, sprint.RankedStories[0].Tasks.Length);
 
-                Console.WriteLine("Attempting to post a 3 hour task to story 1014");
+                Console.WriteLine("Attempting to post a 1 hour task to story 1115");
                 await AgilefantEffortEntry.LogTime(1115, DateTime.Now, 60, "A magical descriptions", new[] {69,73}, session);
                 Console.WriteLine("Done?");
 
                 Console.WriteLine("Getting effort entries for task 1115");
                 var entries = await AgilefantEffortEntry.GetEffortEntries(1115, session);
                 Console.WriteLine("Got {0} entries!", entries.Count());
+
+                Console.WriteLine("Attempting to update effort entry 3407");
+                var entry = new AgilefantEffortEntry(3407, DateTime.Now, 120, "A less magical description", 69);
+                await client.UpdateEffortEntry(entry);
+                Console.WriteLine("Updated (probably)");
 
                 session.Logout();
             }

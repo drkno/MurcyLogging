@@ -14,7 +14,11 @@ namespace Agilefantasy
         [JsonProperty("date")]
         private long LogTimeMilliseconds { get; set; }
 
-        public DateTime LogDate { get { return new DateTime(1970, 1, 1).AddMilliseconds(LogTimeMilliseconds); } }
+        public DateTime LogDate
+        {
+            get { return new DateTime(1970, 1, 1).AddMilliseconds(LogTimeMilliseconds); }
+            set { LogTimeMilliseconds = (long)value.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds; }
+        }
 
         [JsonProperty("description")]
         public string Comment { get; private set; }
@@ -24,6 +28,20 @@ namespace Agilefantasy
         
         [JsonProperty("user")]
         public AgilefantUser User { get; private set; }
+
+        public AgilefantEffortEntry()
+        {
+            
+        }
+
+        internal AgilefantEffortEntry(int id, DateTime entryDate, int minutesSpent, string description, int userId)
+        {
+            Id = id;
+            LogDate = entryDate;
+            MinutesSpent = minutesSpent;
+            Comment = description;
+            User = new AgilefantUser(userId);
+        }
 
         /// <summary>
         /// Gets all the effort entries for a backlog
