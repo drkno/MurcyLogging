@@ -4,11 +4,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Agilefantasy.Common;
 using Newtonsoft.Json;
 
 namespace Agilefantasy
 {
-    public class AgilefantEffortEntry
+    public class AgilefantEffortEntry :  AgilefantBase
     {
         [JsonProperty("date")]
         private long LogTimeMilliseconds { get; set; }
@@ -17,6 +18,9 @@ namespace Agilefantasy
 
         [JsonProperty("description")]
         public string Comment { get; private set; }
+
+        [JsonProperty("minutesSpent")]
+        public int MinutesSpent { get; private set; }
         
         [JsonProperty("user")]
         public AgilefantUser User { get; private set; }
@@ -99,6 +103,24 @@ namespace Agilefantasy
             });
 
             return session.Post("ajax/logTaskEffort.action", postData);
+        }
+
+        /// <summary>
+        /// Updates an existing effort entry
+        /// </summary>
+        /// <param name="entry">The effort entry to update. This *MUST* have the correct id</param>
+        /// <param name="session">The session</param>
+        internal static Task UpdateEffortEntry(AgilefantEffortEntry entry, AgilefantSession session)
+        {
+            var content = new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                {"hourEntry.minutesSpent", entry.MinutesSpent.ToString()},
+                {"hourEntry.date", entry.LogTimeMilliseconds.ToString()},
+                {"hourEntry.description", entry.Comment},
+                {"hourEntryId", entry.Id.ToString() },
+            });
+
+            return session.Post("ajax/storeEffortEntry.action", content);
         }
     }
 }

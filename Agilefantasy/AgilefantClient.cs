@@ -91,5 +91,15 @@ namespace Agilefantasy
         {
             return AgilefantEffortEntry.GetEffortEntries(from, _session);
         }
+
+        /// <summary>
+        /// Updates an existing effort entry. It *must* have the correct id in order to do what you think
+        /// it will
+        /// </summary>
+        /// <param name="update">The entry to update</param>
+        public Task UpdateEffortEntry(AgilefantEffortEntry update)
+        {
+            return AgilefantEffortEntry.UpdateEffortEntry(update, _session);
+        }
     }
 }
