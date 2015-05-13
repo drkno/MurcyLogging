@@ -1,9 +1,14 @@
-﻿using Agilefantasy.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Agilefantasy.Common;
 using Newtonsoft.Json;
 
 namespace Agilefantasy
 {
-    public class AgilefantTask : AgilefantBase
+    public class AgilefantTask : AgilefantBase, IAgilefantLoggable
     {
         [JsonProperty("description")]
         public string Description { get; private set; }

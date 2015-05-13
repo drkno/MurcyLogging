@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Agilefantasy.Common;
 
 namespace Agilefantasy
 {
@@ -64,6 +67,39 @@ namespace Agilefantasy
         public Task<AgilefantTime> GetTime(int teamNumber, int backlogId, int sprintId, int userId)
         {
             return AgilefantTime.GetTimes(teamNumber, backlogId, sprintId, userId, _session);
+        }
+
+        /// <summary>
+        /// Logs time against a backlog item
+        /// </summary>
+        /// <param name="against">The item to log against</param>
+        /// <param name="entryDate">The entry date</param>
+        /// <param name="minutesSpent">The minutes spent</param>
+        /// <param name="comment">A description of the work effort</param>
+        /// <param name="users">The users to log for</param>
+        public Task LogTime(IAgilefantLoggable against, DateTime entryDate, int minutesSpent, string comment, IEnumerable<AgilefantUser> users)
+        {
+            return AgilefantEffortEntry.LogTime(against, entryDate, minutesSpent, comment, users, _session);
+        }
+
+        /// <summary>
+        /// Gets the effort entries for a backlog item
+        /// </summary>
+        /// <param name="from">The loggable to get times from</param>
+        /// <returns>The effort entries for the task</returns>
+        public Task<IEnumerable<AgilefantEffortEntry>> GetEffortEntries(IAgilefantLoggable from)
+        {
+            return AgilefantEffortEntry.GetEffortEntries(from, _session);
+        }
+
+        /// <summary>
+        /// Updates an existing effort entry. It *must* have the correct id in order to do what you think
+        /// it will
+        /// </summary>
+        /// <param name="update">The entry to update</param>
+        public Task UpdateEffortEntry(AgilefantEffortEntry update)
+        {
+            return AgilefantEffortEntry.UpdateEffortEntry(update, _session);
         }
     }
 }

@@ -47,6 +47,16 @@ namespace Agilefantasy
         [JsonProperty("weekEffort")]
         public object WeekEffort { get; private set; }
 
+        public AgilefantUser()
+        {
+            
+        }
+
+        internal AgilefantUser(int id)
+        {
+            Id = id;
+        }
+
         internal static async Task<AgilefantUser[]> GetAgilefantUsers(AgilefantSession session)
         {
             var response = await session.Post("ajax/userChooserData.action");

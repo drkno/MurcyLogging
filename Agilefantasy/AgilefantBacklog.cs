@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Agilefantasy
 {
-    public class AgilefantBacklog : AgilefantBase
+    public class AgilefantBacklog : AgilefantBase, IAgilefantLoggable
     {
         [JsonProperty("backlogSize")]
         public object BacklogSize { get; set; }
