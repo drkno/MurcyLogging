@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Agilefantasy.Common;
 
 namespace Agilefantasy
 {
@@ -64,6 +67,11 @@ namespace Agilefantasy
         public Task<AgilefantTime> GetTime(int teamNumber, int backlogId, int sprintId, int userId)
         {
             return AgilefantTime.GetTimes(teamNumber, backlogId, sprintId, userId, _session);
+        }
+
+        public Task LogTime(IAgilefantLoggable against, DateTime entryDate, int minutesSpent, string comment, IEnumerable<AgilefantUser> users)
+        {
+            return AgilefantTask.AddTask(against, entryDate, minutesSpent, comment, users, _session);
         }
     }
 }

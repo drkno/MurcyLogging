@@ -71,6 +71,8 @@
     <Compile Include="AgilefantSprintSummary.cs" />
     <Compile Include="AgilefantSprint.cs" />
     <Compile Include="Common\AgilefantBase.cs" />
+    <Compile Include="AgilefantEffortEntry.cs" />
+    <Compile Include="IAgilefantLoggable.cs" />
     <Compile Include="Story\AgilefantStoryMetrics.cs" />
     <Compile Include="Story\AgilefantStory.cs" />
     <Compile Include="AgilefantTask.cs" />

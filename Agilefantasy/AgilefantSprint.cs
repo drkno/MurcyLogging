@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Agilefantasy
 {
-    public class AgilefantSprint : AgilefantBase
+    public class AgilefantSprint : AgilefantBase, IAgilefantLoggable
     {
         /// <summary>
         /// Gets details about a sprint with a specified ID.

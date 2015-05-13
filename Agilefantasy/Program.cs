@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Agilefantasy.Common;
@@ -59,6 +61,10 @@ namespace Agilefantasy
                 var sprint = await client.GetSprint(14);
                 Console.WriteLine("Got sprint \"{0}\", with {1} stories and {2} tasks on first story.", sprint.Name,
                     sprint.RankedStories.Length, sprint.RankedStories[0].Tasks.Length);
+
+                Console.WriteLine("Attempting to post a 3 hour task to story 1014");
+                await AgilefantTask.AddTask(1115, DateTime.Now, 60, "A magical descriptions", new[] {69}, session);
+                Console.WriteLine("Done?");
 
                 session.Logout();
             }

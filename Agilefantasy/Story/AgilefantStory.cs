@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Agilefantasy.Story
 {
-    public class AgilefantStory : AgilefantBase
+    public class AgilefantStory : AgilefantBase, IAgilefantLoggable
     {
         [JsonProperty("description")]
         public string Description { get; private set; }
