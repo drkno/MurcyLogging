@@ -59,6 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agilefant\AgilefantDescription.cs" />
+    <Compile Include="Agilefant\BasicTag.cs" />
+    <Compile Include="Agilefant\IAgilefantTag.cs" />
+    <Compile Include="Agilefant\MultiTag.cs" />
     <Compile Include="CreationWindow.cs">
       <SubType>Form</SubType>
     </Compile>
