@@ -18,8 +18,8 @@ namespace MurcyLogging
 
             InitializeComponent();
 
-            labelSectionTitle.Text = AgilefantDesciption.GetDescription(tag);
-            labelDescription.Text = AgilefantDesciption.GetTitle(tag);
+            labelSectionTitle.Text = AgilefantDesciption.GetTitle(tag);
+            labelDescription.Text = AgilefantDesciption.GetDescription(tag);
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)

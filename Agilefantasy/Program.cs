@@ -63,7 +63,7 @@ namespace Agilefantasy
                     sprint.RankedStories.Length, sprint.RankedStories[0].Tasks.Length);
 
                 Console.WriteLine("Attempting to post a 1 hour task to story 1115");
-                await AgilefantEffortEntry.LogTime(1115, DateTime.Now, 60, "A magical descriptions", new[] {69,73}, session);
+                await AgilefantEffortEntry.LogTime(1115, DateTime.Now - TimeSpan.FromSeconds(20), 60, "A magical", new[] {69,73}, session);
                 Console.WriteLine("Done?");
 
                 Console.WriteLine("Getting effort entries for task 1115");

@@ -96,31 +96,24 @@ namespace Agilefantasy
         /// <param name="description">A description of the entry</param>
         /// <param name="users">The users to log against</param>
         /// <param name="session">The session</param>
-        internal static Task LogTime(int parentObjectId, DateTime entryDate, int minutesSpent, string description,
+        internal static async Task LogTime(int parentObjectId, DateTime entryDate, int minutesSpent, string description,
             IEnumerable<int> users, AgilefantSession session)
         {
             //Get the time in milliseconds since the epoch
             var timeSinceEpoch = (long)(entryDate - new DateTime(1970, 1, 1)).TotalMilliseconds;
 
-            //Get a comma seperated string of the users
-            var userIds = "";
-            foreach (var user in users)
+            var content = new List<KeyValuePair<string, string>>
             {
-                if (!string.IsNullOrEmpty(userIds))
-                    userIds += ",";
-                userIds += user;
-            }
+                new KeyValuePair<string, string>("parentObjectId", parentObjectId.ToString()),
+                new KeyValuePair<string, string>("hourEntry.date", timeSinceEpoch.ToString()),
+                new KeyValuePair<string, string>("hourEntry.minutesSpent", minutesSpent.ToString()),
+                new KeyValuePair<string, string>("hourEntry.description", description),
+            };
+            content.AddRange(users.Select(user => new KeyValuePair<string, string>("userIds", user.ToString())));
 
-            var postData = new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                {"parentObjectId", parentObjectId.ToString()},
-                {"hourEntry.date", timeSinceEpoch.ToString()},
-                {"hourEntry.minutesSpent", minutesSpent.ToString()},
-                {"hourEntry.description", description},
-                {"userIds", userIds},
-            });
+            var postData = new FormUrlEncodedContent(content);
 
-            return session.Post("ajax/logTaskEffort.action", postData);
+            var response = await session.Post("ajax/logTaskEffort.action", postData);
         }
 
         /// <summary>
