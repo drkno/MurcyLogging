@@ -20,23 +20,7 @@ namespace Agilefantasy
 
         private static async Task RunTests()
         {
-            var server = new RestServer(8080);
-            server += new RestfulUrlHandler("/rest/.*", p =>
-            {
-                p.WriteSuccess("testing123\r\n" + "You accessed the URL at \"" + p.HttpUrl + "\" with post data \"" + p.HttpPostData + "\"");
-            });
-            server += new RestfulUrlHandler("/login/.*", p =>
-            {
-                if (p.HttpHeaders["Authorization"] != null)
-                {
-                    var str = p.DecodeAuthenticationHeader();
-                    p.WriteSuccess(str);
-                }
-                else
-                {
-                    p.WriteAuthRequired();
-                }
-            });
+            var server = new RestApiClient(8080, Environment.CurrentDirectory);
 
             server.Start();
             Console.ReadKey();
