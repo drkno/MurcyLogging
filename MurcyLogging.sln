@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MurcyLogging", "MurcyLogging\MurcyLogging.csproj", "{0596FE9D-B38E-42DA-B6E5-664A1F9BF565}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agilefantasy", "Agilefantasy\Agilefantasy.csproj", "{CC6500DE-5FD3-4EDE-BCA5-15E9DDD7EEE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingTimesGUI", "LoggingTimesGUI\LoggingTimesGUI.csproj", "{23355E42-E473-4D07-8E9C-AF0D79E31152}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{CC6500DE-5FD3-4EDE-BCA5-15E9DDD7EEE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC6500DE-5FD3-4EDE-BCA5-15E9DDD7EEE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC6500DE-5FD3-4EDE-BCA5-15E9DDD7EEE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23355E42-E473-4D07-8E9C-AF0D79E31152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23355E42-E473-4D07-8E9C-AF0D79E31152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23355E42-E473-4D07-8E9C-AF0D79E31152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23355E42-E473-4D07-8E9C-AF0D79E31152}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

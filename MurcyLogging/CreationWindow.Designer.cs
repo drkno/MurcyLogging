@@ -40,6 +40,7 @@ namespace MurcyLogging
             this.tableLayoutPanelControls = new System.Windows.Forms.TableLayoutPanel();
             this.comboBoxAddSection = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.multiselectComboBoxCommits = new MurcyLogging.MultiselectComboBox();
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
             this.teamMembersPanel = new System.Windows.Forms.FlowLayoutPanel();
@@ -49,7 +50,6 @@ namespace MurcyLogging
             this.peerProgrammedCheckBox = new System.Windows.Forms.CheckBox();
             this.timeSpentBox = new System.Windows.Forms.TextBox();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
-            this.multiselectComboBoxCommits = new MurcyLogging.MultiselectComboBox();
             this.tableLayoutPanelControls.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -188,6 +188,15 @@ namespace MurcyLogging
             this.label5.TabIndex = 14;
             this.label5.Text = "Add Section:";
             // 
+            // multiselectComboBoxCommits
+            // 
+            this.multiselectComboBoxCommits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.multiselectComboBoxCommits.FormattingEnabled = true;
+            this.multiselectComboBoxCommits.Location = new System.Drawing.Point(128, 196);
+            this.multiselectComboBoxCommits.Name = "multiselectComboBoxCommits";
+            this.multiselectComboBoxCommits.Size = new System.Drawing.Size(412, 21);
+            this.multiselectComboBoxCommits.TabIndex = 11;
+            // 
             // flowLayoutPanel
             // 
             this.flowLayoutPanel.AutoSize = true;
@@ -279,15 +288,6 @@ namespace MurcyLogging
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(412, 20);
             this.datePicker.TabIndex = 25;
-            // 
-            // multiselectComboBoxCommits
-            // 
-            this.multiselectComboBoxCommits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.multiselectComboBoxCommits.FormattingEnabled = true;
-            this.multiselectComboBoxCommits.Location = new System.Drawing.Point(128, 196);
-            this.multiselectComboBoxCommits.Name = "multiselectComboBoxCommits";
-            this.multiselectComboBoxCommits.Size = new System.Drawing.Size(412, 21);
-            this.multiselectComboBoxCommits.TabIndex = 11;
             // 
             // MainWindow
             // 
